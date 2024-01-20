@@ -6,9 +6,29 @@
         "padding_top": 28,
         "padding_bottom": 28
       }
+    },
+    "offers_NPCDwF": {
+      "type": "offers",
+      "blocks": {
+        "offer_p8UTeU": {
+          "type": "offer",
+          "settings": {
+            "offer_name": "Exclusive Savings",
+            "discount_code": "20OFFOVER100",
+            "offer_description": "Enjoy a Limited-Time Offer! Get 20% off your order when you spend $100 or more. Use code : 20OFFOVER100 at checkout. Shop now and save!"
+          }
+        }
+      },
+      "block_order": [
+        "offer_p8UTeU"
+      ],
+      "settings": {
+        "title": "Active Offers"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "offers_NPCDwF"
   ]
 }
