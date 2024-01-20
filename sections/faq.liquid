@@ -1,0 +1,98 @@
+<div class="accordion container mb-5" id="accordionExample">
+  <h2>{{ section.settings.title }}</h2>
+
+  {% for faq in section.blocks %}
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.index }}" aria-expanded="true" aria-controls="collapse{{ forloop.index }}">
+          <h3>{{ faq.settings.faq_question }}</h3>
+        </button>
+      </h2>
+      <div id="collapse{{ forloop.index }}" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <p>{{ faq.settings.faq_description }}</p>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+<style>
+    .accordion-item {
+      border: 1px solid #dee2e6;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    .accordion-button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      text-align: left;
+    }
+
+    .accordion-button:hover {
+      background-color: #0056b3;
+    }
+
+    .accordion-header {
+      background-color: #e9ecef;
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    .accordion-body {
+      border: 1px solid #dee2e6;
+      border-top: none;
+      border-radius: 0 0 5px 5px;
+      padding: 15px;
+    }
+
+    .accordion-icon {
+      font-size: 1.25rem;
+      margin-left: 10px;
+    }
+  </style>
+
+
+{% schema %}
+{
+  "name": "faqs",
+  "settings": [
+
+    {
+      "type": "text",
+      "label": "Title",
+      "id": "title"
+    }
+
+  ],
+ "blocks": [
+    {
+      "type": "faqs",
+      "name": "faqs",
+      "settings": [
+        {
+          "type": "text",
+          "id": "faq_question",
+          "label": " Faq Qestion"
+        },
+        {
+          "type": "textarea",
+          "id": "faq_description",
+          "label": "Faq Description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Frequently Asked Questions"
+    }
+  ]
+}
+{% endschema %}
