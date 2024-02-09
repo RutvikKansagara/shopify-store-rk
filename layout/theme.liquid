@@ -5,12 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="">
-    {%- assign og_title = page_title | default: shop.name -%}
-{%- assign og_url = canonical_url | default: shop.url -%}
-{%- assign og_type = 'website' -%}
-{%- assign og_description = page_description | default: shop.description | default: shop.name -%}
-    <meta property="og:image" content="https://rutvikk.myshopify.com/cdn/shop/products/chambray_5f232530-4331-492a-872c-81c225d6bafd.jpg?v=1705135599&width=823">
-<meta property="og:image:secure_url" content="https://rutvikk.myshopify.com/cdn/shop/products/chambray_5f232530-4331-492a-872c-81c225d6bafd.jpg?v=1705135599&width=823">
+    
     <link rel="canonical" href="{{ canonical_url }}">
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -290,7 +285,12 @@
         onload="this.media='all'"
       >
     {%- endif -%}
-
+{%- assign og_title = page_title | default: shop.name -%}
+{%- assign og_url = canonical_url | default: shop.url -%}
+{%- assign og_type = 'website' -%}
+{%- assign og_description = page_description | default: shop.description | default: shop.name -%}
+    <meta property="og:image" content="https://rutvikk.myshopify.com/cdn/shop/products/chambray_5f232530-4331-492a-872c-81c225d6bafd.jpg?v=1705135599">
+<meta property="og:image:secure_url" content="https://rutvikk.myshopify.com/cdn/shop/products/chambray_5f232530-4331-492a-872c-81c225d6bafd.jpg?v=1705135599">
     <script>
       document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
       if (Shopify.designMode) {
