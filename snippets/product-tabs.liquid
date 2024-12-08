@@ -1,136 +1,137 @@
 <style>
-  .product-tabs-container {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-  }
+/* Tabs Styles */
+.tabs-container {
+  font-family: Arial, sans-serif;
+}
 
-  .tabs {
-    display: flex;
-    list-style: none;
-    padding: 0;
-    border-bottom: 2px solid #ccc;
-    margin-bottom: 10px;
-  }
+.tabs {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-bottom: 2px solid #ddd;
+}
 
-  .tab {
-    padding: 10px 20px;
-    cursor: pointer;
-    margin-right: 10px;
-    border: 2px solid transparent;
-  }
+.tab-item {
+  padding: 10px 20px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-bottom: none;
+}
 
-  .tab.active {
-    border-bottom: 2px solid #007BFF;
-    color: #007BFF;
-    font-weight: bold;
-  }
+.tab-item.active {
+  border-color: #000;
+  background: #f9f9f9;
+}
 
-  .tab-content-container {
-    display: none;
-  }
+.tab-content-container {
+  padding: 20px;
+  display: none;
+}
 
-  .tab-content {
-    padding: 10px;
-    border: 1px solid #ddd;
-    margin-top: -1px;
-  }
+.tab-content-container.active {
+  display: block;
+}
 
-  .tab-content.active {
-    display: block;
-  }
+/* FAQ Styles */
+.faq-container {
+  margin-top: 20px;
+}
 
-  .faq-container {
-    margin-top: 20px;
-  }
+.faq-item {
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+}
 
-  .faq {
-    border-bottom: 1px solid #ccc;
-    padding: 10px 0;
-  }
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
 
-  .faq-question {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-  }
+.faq-toggle {
+  font-weight: bold;
+}
 
-  .faq-toggle {
-    font-size: 18px;
-    color: #007BFF;
-  }
+.faq-answer {
+  display: none;
+  padding-top: 10px;
+  color: #555;
+}
 
-  .faq-answer {
-    display: none;
-    padding: 10px 0;
-    font-size: 14px;
-    color: #333;
-  }
+.faq-item.open .faq-answer {
+  display: block;
+}
+
+.faq-item.open .faq-toggle {
+  transform: rotate(45deg);
+}
 </style>
 
-<div class="product-tabs-container">
+<div class="tabs-container">
   <ul class="tabs">
     {% for product_tab in product.metafields.custom.product_tabs.value %}
-      <li class="tab" data-tab="{{ forloop.index0 }}">
-        {{ product_tab.tab_name }}
-      </li>
+    <li class="tab-item" data-tab-index="{{ forloop.index }}">
+      {{ product_tab.tab_name }}
+    </li>
     {% endfor %}
   </ul>
 
   <div class="tab-content-container">
     {% for product_tab in product.metafields.custom.product_tabs.value %}
-      <div class="tab-content" data-tab="{{ forloop.index0 }}">
-        <p>{{ product_tab.tab_content }}</p>
-        <div class="faq-container">
-          {% for faq_entry in product_tab.faq_content.value %}
-            <div class="faq">
-              <div class="faq-question" data-faq="{{ forloop.index0 }}">
-                {{ faq_entry.question }}
-                <span class="faq-toggle">+</span>
-              </div>
-              <div class="faq-answer">
-                {{ faq_entry.answer }}
-              </div>
-            </div>
-          {% endfor %}
-        </div>
+    <div class="tab-content" data-tab-content-index="{{ forloop.index }}">
+      {% if product_tab.tab_content %}
+      <div class="tab-text-content">
+        {{ product_tab.tab_content }}
       </div>
+      {% endif %}
+      {% if product_tab.faq_content.value %}
+      <div class="faq-container">
+        {% for faq_entry in product_tab.faq_content.value %}
+        <div class="faq-item">
+          <div class="faq-question" data-faq-index="{{ forloop.index }}">
+            {{ faq_entry.question }}
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-answer">
+            {{ faq_entry.answer }}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
     {% endfor %}
   </div>
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    // Tab functionality
-    const tabs = document.querySelectorAll(".tab");
-    const tabContents = document.querySelectorAll(".tab-content");
+document.addEventListener("DOMContentLoaded", () => {
+  // Tabs functionality
+  const tabItems = document.querySelectorAll(".tab-item");
+  const tabContents = document.querySelectorAll(".tab-content");
 
-    tabs.forEach(tab => {
-      tab.addEventListener("click", () => {
-        // Remove active class from all tabs
-        tabs.forEach(t => t.classList.remove("active"));
-        tabContents.forEach(tc => tc.classList.remove("active"));
+  tabItems.forEach((tab, index) => {
+    tab.addEventListener("click", () => {
+      // Activate the clicked tab
+      tabItems.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
 
-        // Add active class to clicked tab and corresponding content
-        tab.classList.add("active");
-        document.querySelector(`.tab-content[data-tab="${tab.dataset.tab}"]`).classList.add("active");
-      });
-    });
-
-    // FAQ toggle functionality
-    const faqQuestions = document.querySelectorAll(".faq-question");
-
-    faqQuestions.forEach(faq => {
-      faq.addEventListener("click", () => {
-        const answer = faq.nextElementSibling;
-
-        // Toggle answer visibility
-        if (answer.style.display === "block") {
-          answer.style.display = "none";
-        } else {
-          answer.style.display = "block";
-        }
-      });
+      // Show the corresponding tab content
+      tabContents.forEach(content => content.classList.remove("active"));
+      document.querySelector(`.tab-content[data-tab-content-index="${index + 1}"]`).classList.add("active");
     });
   });
+
+  // FAQ toggle functionality
+  const faqQuestions = document.querySelectorAll(".faq-question");
+
+  faqQuestions.forEach(question => {
+    question.addEventListener("click", () => {
+      const faqItem = question.parentElement;
+      faqItem.classList.toggle("open");
+    });
+  });
+});
 </script>
