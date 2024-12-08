@@ -24,12 +24,14 @@
   background: #f9f9f9;
 }
 
-.tab-content-container {
-  padding: 20px;
+.tab-content {
   display: none;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-top: none;
 }
 
-.tab-content-container.active {
+.tab-content.active {
   display: block;
 }
 
@@ -90,7 +92,7 @@
       <div class="faq-container">
         {% for faq_entry in product_tab.faq_content.value %}
         <div class="faq-item">
-          <div class="faq-question" data-faq-index="{{ forloop.index }}">
+          <div class="faq-question">
             {{ faq_entry.question }}
             <span class="faq-toggle">+</span>
           </div>
@@ -123,6 +125,12 @@ document.addEventListener("DOMContentLoaded", () => {
       document.querySelector(`.tab-content[data-tab-content-index="${index + 1}"]`).classList.add("active");
     });
   });
+
+  // Set the first tab and content as active by default
+  if (tabItems.length > 0) {
+    tabItems[0].classList.add("active");
+    tabContents[0].classList.add("active");
+  }
 
   // FAQ toggle functionality
   const faqQuestions = document.querySelectorAll(".faq-question");
