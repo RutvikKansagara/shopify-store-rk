@@ -1,5 +1,136 @@
-{% for product_tab in product.metafields.custom.product_tabs.value %}  {{ product_tab.tab_name }}  {{ product_tab.tab_content }} 
+<style>
+  .product-tabs-container {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
 
- {% for faq_entry in product_tab.faq_content.value %}    {{ faq_entry.question }}    {{ faq_entry.answer }}  
-{% endfor %} 
-{% endfor %}
+  .tabs {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    border-bottom: 2px solid #ccc;
+    margin-bottom: 10px;
+  }
+
+  .tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-right: 10px;
+    border: 2px solid transparent;
+  }
+
+  .tab.active {
+    border-bottom: 2px solid #007BFF;
+    color: #007BFF;
+    font-weight: bold;
+  }
+
+  .tab-content-container {
+    display: none;
+  }
+
+  .tab-content {
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin-top: -1px;
+  }
+
+  .tab-content.active {
+    display: block;
+  }
+
+  .faq-container {
+    margin-top: 20px;
+  }
+
+  .faq {
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+  }
+
+  .faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .faq-toggle {
+    font-size: 18px;
+    color: #007BFF;
+  }
+
+  .faq-answer {
+    display: none;
+    padding: 10px 0;
+    font-size: 14px;
+    color: #333;
+  }
+</style>
+
+<div class="product-tabs-container">
+  <ul class="tabs">
+    {% for product_tab in product.metafields.custom.product_tabs.value %}
+      <li class="tab" data-tab="{{ forloop.index0 }}">
+        {{ product_tab.tab_name }}
+      </li>
+    {% endfor %}
+  </ul>
+
+  <div class="tab-content-container">
+    {% for product_tab in product.metafields.custom.product_tabs.value %}
+      <div class="tab-content" data-tab="{{ forloop.index0 }}">
+        <p>{{ product_tab.tab_content }}</p>
+        <div class="faq-container">
+          {% for faq_entry in product_tab.faq_content.value %}
+            <div class="faq">
+              <div class="faq-question" data-faq="{{ forloop.index0 }}">
+                {{ faq_entry.question }}
+                <span class="faq-toggle">+</span>
+              </div>
+              <div class="faq-answer">
+                {{ faq_entry.answer }}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Tab functionality
+    const tabs = document.querySelectorAll(".tab");
+    const tabContents = document.querySelectorAll(".tab-content");
+
+    tabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        // Remove active class from all tabs
+        tabs.forEach(t => t.classList.remove("active"));
+        tabContents.forEach(tc => tc.classList.remove("active"));
+
+        // Add active class to clicked tab and corresponding content
+        tab.classList.add("active");
+        document.querySelector(`.tab-content[data-tab="${tab.dataset.tab}"]`).classList.add("active");
+      });
+    });
+
+    // FAQ toggle functionality
+    const faqQuestions = document.querySelectorAll(".faq-question");
+
+    faqQuestions.forEach(faq => {
+      faq.addEventListener("click", () => {
+        const answer = faq.nextElementSibling;
+
+        // Toggle answer visibility
+        if (answer.style.display === "block") {
+          answer.style.display = "none";
+        } else {
+          answer.style.display = "block";
+        }
+      });
+    });
+  });
+</script>
