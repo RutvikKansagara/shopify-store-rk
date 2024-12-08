@@ -1,0 +1,5 @@
+{% for product_tab in product.metafields.custom.product_tabs.value %}  {{ product_tab.tab_name }}  {{ product_tab.tab_content }} 
+
+ {% for faq_entry in product_tab.faq_content.value %}    {{ faq_entry.question }}    {{ faq_entry.answer }}  
+{% endfor %} 
+{% endfor %}
