@@ -2,7 +2,7 @@
   {% for faq in shop.metaobjects.faq.values %}
     <div class="faq-item">
       <div class="faq-question">
-        <button class="toggle-faq">{{ faq.title }}</button>
+        <button class="toggle-faq">{{ faq.question }}</button>
       </div>
       <div class="faq-answer hidden">
         {{ faq.answer }}
