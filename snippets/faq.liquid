@@ -1,0 +1,41 @@
+<div class="faq-accordion">
+  {% for faq in shop.metaobjects.faq.values %}
+    <div class="faq-item">
+      <div class="faq-question">
+        <button class="toggle-faq">{{ faq.title }}</button>
+      </div>
+      <div class="faq-answer hidden">
+        {{ faq.answer }}
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggles = document.querySelectorAll('.toggle-faq');
+    toggles.forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        const answer = toggle.closest('.faq-item').querySelector('.faq-answer');
+        answer.classList.toggle('hidden');
+      });
+    });
+  });
+</script>
+
+<style>
+  .faq-item {
+    margin-bottom: 10px;
+  }
+  .faq-question {
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .faq-answer {
+    display: none;
+    margin-top: 5px;
+  }
+  .faq-answer.hidden {
+    display: block;
+  }
+</style>
