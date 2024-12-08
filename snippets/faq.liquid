@@ -1,25 +1,60 @@
 <div class="faq-accordion">
   {% for faq in shop.metaobjects.faq.values %}
     <div class="faq-item">
-      <div class="faq-question">
+      <div class="faq-question" onclick="toggleAccordion(this)">
+        <span class="faq-icon">+</span>
         <strong>{{ faq.question }}</strong>
       </div>
-      <div class="faq-answer">
+      <div class="faq-answer hidden">
         {{ faq.answer }}
       </div>
     </div>
   {% endfor %}
 </div>
 
+<script>
+  function toggleAccordion(element) {
+    const faqItem = element.closest('.faq-item')
+    const answer = faqItem.querySelector('.faq-answer')
+    const icon = faqItem.querySelector('.faq-icon')
+
+    // Toggle the hidden class
+    answer.classList.toggle('hidden')
+
+    // Toggle the icon
+    if (answer.classList.contains('hidden')) {
+      icon.textContent = '+'
+    } else {
+      icon.textContent = '-'
+    }
+  }
+</script>
+
 <style>
   .faq-item {
     margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
   }
+
   .faq-question {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
     font-weight: bold;
-    margin-bottom: 5px;
   }
+
+  .faq-icon {
+    margin-right: 10px;
+    font-size: 18px;
+  }
+
   .faq-answer {
     margin-top: 5px;
   }
+
+  .faq-answer.hidden {
+    display: none;
+  }
 </style>
+
